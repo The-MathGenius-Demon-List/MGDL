@@ -1,23 +1,22 @@
 {
-    "id": 73667628,
-    "name": "Sample Level 3",
-    "author": "Different Publisher",
-    "creators": ["Solo_Creator"],
-    "verifier": "Solo_Creator",
-    "verification": "https://www.youtube.com/watch?v=ISTl28wKSXc",
+    "id": 27690100,
+    "name": "Slaughterhouse",
+    "author": "icedcave",
+    "creators": [],
+    "verifier": "TheGoldenBo",
+    "verification": "https://www.youtube.com/watch?v=eVwW74JbGgk&pp=ygUadGhlZ29sZGVuYm8gc2xhdWdodGVyaG91c2U%3D",
     "percentToQualify": "100",
+    "password": "Free To Copy",
     "records": [
         {
-            "user": "Sample_Victor_1",
-            "link": "https://www.youtube.com/watch?v=MgJeijBGKHU",
-            "percent": 100,
-            "hz": 360
-        },
+            "user": "ProudGiraffe311",
+            "link": "https://www.youtube.com/watch?v=oa7OrrGLU-I",
+            "percent": 100
+        }
         {
-            "user": "Sample_Victor_2",
-            "link": "https://www.youtube.com/watch?v=MgJeijBGKHU",
-            "percent": 100,
-            "hz": 120
+            "user": "Sharkified",
+            "link": "https://www.youtube.com/watch?v=1KMt8GfC714",
+            "percent": 100
         }
     ]
 }
