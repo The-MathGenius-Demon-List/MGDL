@@ -1,0 +1,22 @@
+{
+    "id": 57436521,
+    "name": "Acheron",
+    "author": "ryamu",
+    "creators": [],
+    "verifier": "Solo_Creator",
+    "verification": "https://www.youtube.com/watch?v=ISTl28wKSXc",
+    "percentToQualify": "100",
+    "password": "Free To Copy",
+    "records": [
+        {
+            "user": "Sharkified",
+            "link": "https://www.youtube.com/watch?v=R-xOdu6RjAw",
+            "percent": 100
+        },
+        {
+            "user": "TheGoldenBo",
+            "link": "https://www.youtube.com/watch?v=SjeBTbpwMxY",
+            "percent": 100
+        }
+    ]
+}
