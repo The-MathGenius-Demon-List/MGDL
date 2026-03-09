@@ -4,38 +4,69 @@
 const scale = 3;
 
 /**
+ * Calculates the total "weight" of the list.
+ * This is the denominator for your 10,000 point formula.
+ * @param {Array} list The array of levels (filtered to remove non-levels)
+ * @returns {Number}
+ */
+function getRawSum(totalLevels) {
+    let sum = 0;
+    const k = 1.18;
+    const N = totalLevels;
+
+    for (let i = 1; i <= N; i++) {
+        // Your formula: 3 + 297 * ((N-i)/(N-1))^k
+        // We use Math.max(1, N-1) to prevent division by zero if there's only 1 level
+        let rawP = 3 + 297 * Math.pow((N - i) / Math.max(1, N - 1), k);
+        sum += rawP;
+    }
+    return sum;
+}
+
+/**
  * Calculate the score awarded when having a certain percentage on a list level
- * @param {Number} rank Position on the list
+ * @param {Number} rank Position on the list (r)
+ * @param {Number} totalLevels Total number of valid levels on the list (N)
  * @param {Number} percent Percentage of completion
  * @param {Number} minPercent Minimum percentage required
  * @returns {Number}
  */
-export function score(rank, percent, minPercent) {
-    if (rank > 150) {
+export function score(rank, totalLevels, percent, minPercent) {
+    // If the player hasn't reached the minimum requirement, they get 0
+    if (percent < minPercent) {
         return 0;
     }
-    if (rank > 75 && percent < 100) {
-        return 0;
-    }
 
-    // Old formula
-    /*
-    let score = (100 / Math.sqrt((rank - 1) / 50 + 0.444444) - 50) *
+    const k = 1.18;
+    const N = totalLevels;
+
+    // 1. Calculate the Raw Points for this specific rank
+    let rawScore = 3 + 297 * Math.pow((N - rank) / Math.max(1, N - 1), k);
+
+    // 2. Calculate the Sum of all Raw Points on the list
+    let rawSum = getRawSum(N);
+
+    // 3. Normalize to 10,000 points
+    // This ensures (Individual / Total) * 10,000
+    let base10kScore = (rawScore / rawSum) * 10000;
+
+    // 4. Calculate score based on percentage (Percentage Math)
+    let finalScore = base10kScore *
         ((percent - (minPercent - 1)) / (100 - (minPercent - 1)));
-    */
-    // New formula
-    let score = (-24.9975*Math.pow(rank-1, 0.4) + 200) *
-        ((percent - (minPercent - 1)) / (100 - (minPercent - 1)));
 
-    score = Math.max(0, score);
+    finalScore = Math.max(0, finalScore);
 
+    // 5. Apply penalty for non-100% completions
     if (percent != 100) {
-        return round(score - score / 3);
+        return round(finalScore - finalScore / 3);
     }
 
-    return Math.max(round(score), 0);
+    return Math.max(round(finalScore), 0);
 }
 
+/**
+ * Standard rounding utility from the original script
+ */
 export function round(num) {
     if (!('' + num).includes('e')) {
         return +(Math.round(num + 'e+' + scale) + 'e-' + scale);
