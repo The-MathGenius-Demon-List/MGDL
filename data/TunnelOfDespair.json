@@ -8,5 +8,10 @@
     "percentToQualify": 100,
     "password": "Not Copyable",
     "records": [
+        {
+            "user": "MathGenius",
+            "link": "https://www.youtube.com/watch?v=SjeBTbpwMxY",
+            "percent": 100
+        }
     ]
 }
