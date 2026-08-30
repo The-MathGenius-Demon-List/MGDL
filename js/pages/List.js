@@ -22,14 +22,25 @@ export default {
         </main>
         <main v-else class="page-list">
             <div class="list-container">
+                <!-- Search Bar Input -->
+                <div class="search-container">
+                    <input
+                        type="text"
+                        v-model="searchQuery"
+                        placeholder="Search levels..."
+                        class="search-bar"
+                    />
+                    <button v-if="searchQuery" class="search-clear" @click="clearSearch()">✕</button>
+                </div>
+                <!-- Level Table -->
                 <table class="list" v-if="list">
-                    <tr v-for="([level, err], i) in list">
+                    <tr v-for="([level, err], i) in filteredList" :key="i">
                         <td class="rank">
-                            <p v-if="i + 1 <= 999" class="type-label-lg">#{{ i + 1 }}</p>
+                            <p v-if="list.indexOf(filteredList[i]) + 1 <= 999" class="type-label-lg">#{{ list.indexOf(filteredList[i]) + 1 }}</p>
                             <p v-else class="type-label-lg">Legacy</p>
                         </td>
-                        <td class="level" :class="{ 'active': selected == i, 'error': !level }">
-                            <button @click="selected = i">
+                        <td class="level" :class="{ 'active': selected == list.indexOf(filteredList[i]), 'error': !level }">
+                            <button @click="selected = list.indexOf(filteredList[i])">
                                 <span class="type-label-lg">{{ level?.name || \`Error (\${err}.json)\` }}</span>
                             </button>
                         </td>
@@ -132,13 +143,22 @@ export default {
         editors: [],
         loading: true,
         selected: 0,
+        searchQuery: '',
         errors: [],
         roleIconMap,
         store
     }),
     computed: {
+        filteredList() {
+            return this.list.filter(([level]) => {
+                return (
+                    !this.searchQuery ||
+                    level?.name?.toLowerCase().includes(this.searchQuery.toLowerCase())
+                );
+            });
+        },
         level() {
-            return this.list[this.selected][0];
+            return this.list[this.selected]?.[0];
         },
         video() {
             if (!this.level.showcase) {
@@ -180,5 +200,8 @@ export default {
     methods: {
         embed,
         score,
+        clearSearch() {
+            this.searchQuery = '';
+        },
     },
 };
